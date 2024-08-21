@@ -8,15 +8,32 @@ const mostrarVista = document.getElementById('mostrar-vista');
 
 const copiarBtn = document.getElementById('copiar-btn');
 
-function caesarCipher(str, shift) {
+function encriptarEstandar(str) {
     return str.split('').map(char => {
-        const code = char.charCodeAt();
-        if (char >= 'a' && char <= 'z') {
-            return String.fromCharCode(((code - 97 + shift) % 26) + 97);
-        } else {
-            return char;
+        switch (char) {
+            case 'e':
+                return 'enter';
+            case 'i':
+                return 'imes';
+            case 'a':
+                return 'ai';
+            case 'o':
+                return 'ober';
+            case 'u':
+                return 'ufat';
+            default:
+                return char;
         }
     }).join('');
+}
+
+function desencriptarEstandar(str) {
+    return str
+        .replace(/enter/g, 'e')
+        .replace(/imes/g, 'i')
+        .replace(/ai/g, 'a')
+        .replace(/ober/g, 'o')
+        .replace(/ufat/g, 'u');
 }
 
 function setupCopyListener() {
@@ -28,9 +45,14 @@ function setupCopyListener() {
         }
     });
 }
+
+texto.addEventListener('input', function() {
+    this.value = this.value.toLowerCase();
+});
+
 encriptaBtn.addEventListener('click', () => {
     const recibirTexto = texto.value;
-    const encriptandoTexto = caesarCipher(recibirTexto, 3);
+    const encriptandoTexto = encriptarEstandar(recibirTexto);
     mostrarTexto.value=encriptandoTexto;
     if (contenidoParaMostrar.parentNode) {
         contenidoParaMostrar.parentNode.removeChild(contenidoParaMostrar);
@@ -44,7 +66,7 @@ encriptaBtn.addEventListener('click', () => {
 
 desencriptaBtn.addEventListener('click', () => {
     const recibirTexto = texto.value;
-    const desencriptandoTexto = caesarCipher(recibirTexto, -3);
+    const desencriptandoTexto = desencriptarEstandar(recibirTexto);
     mostrarTexto.value = desencriptandoTexto;
     if (contenidoParaMostrar.parentNode) {
         contenidoParaMostrar.parentNode.removeChild(contenidoParaMostrar);
